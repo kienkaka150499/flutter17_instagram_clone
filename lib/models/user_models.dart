@@ -9,6 +9,7 @@ class UserModel {
   String photoUrl;
   List followers;
   List following;
+  String dateOfBirth;
 
   UserModel({
     required this.uid,
@@ -17,6 +18,7 @@ class UserModel {
     required this.followers,
     required this.following,
     required this.photoUrl,
+    this.dateOfBirth = '01/01/1900',
   });
 
   Map<String, dynamic> toJson() => {
@@ -26,6 +28,7 @@ class UserModel {
         "photoUrl": photoUrl,
         "followers": followers,
         "following": following,
+        "dateOfBirth": dateOfBirth,
       };
 
   static UserModel fromSnap(DocumentSnapshot snap) {
@@ -38,6 +41,7 @@ class UserModel {
       photoUrl: snapshot["photoUrl"],
       followers: snapshot["followers"],
       following: snapshot["following"],
+      dateOfBirth: snapshot["dateOfBirth"],
     );
   }
 }

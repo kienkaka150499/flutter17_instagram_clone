@@ -19,8 +19,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   // late UserModel user;
-  late double _width;
-  late double _height;
+  
+  
   late int postCount = 0;
 
   getPostCount() async {
@@ -35,8 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     // user = context.watch<UserProvider>().getUser;
-    _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
+    
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -58,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ListView(
                 children: [
                   SizedBox(
-                    width: _width,
+                    width: width,
                     height: 100,
                     child: Row(
                       children: [
@@ -66,10 +65,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           flex: 1,
                           child: Column(
                             children: [
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundImage:
-                                    NetworkImage(snapshot.data!['photoUrl']),
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 40,
+                                      backgroundImage: NetworkImage(
+                                          snapshot.data!['photoUrl']),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: mobileBackgroundColor,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.edit),
+                                          padding: const EdgeInsets.all(0),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Text(snapshot.data!['email']),
                             ],
@@ -127,7 +152,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ? InkWell(
                                       onTap: () {
                                         FirebaseAuth.instance.signOut();
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const LoginScreen(),),);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => const LoginScreen(),
+                                          ),
+                                        );
                                       },
                                       child: Container(
                                         width: 150,
@@ -204,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return GridView.builder(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: _width > webScreenSize ? 5 : 3,
+                                crossAxisCount: width > webScreenSize ? 5 : 3,
                                 crossAxisSpacing: 1,
                                 mainAxisSpacing: 1,
                               ),

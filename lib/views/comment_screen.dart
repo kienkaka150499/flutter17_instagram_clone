@@ -9,6 +9,8 @@ import 'package:flutter17_instagram_clone/widgets/text_feild.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/global_variables.dart';
+
 class CommentScreen extends StatefulWidget {
   final String postId;
 
@@ -21,7 +23,7 @@ class CommentScreen extends StatefulWidget {
 class _CommentScreenState extends State<CommentScreen> {
   final TextEditingController commentController = TextEditingController();
   late UserModel user = context.watch<UserProvider>().getUser;
-  late double _width;
+  
 
   void postComment(
       String uid, String name, String profileImage, String comment) async {
@@ -53,7 +55,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width;
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -85,7 +87,7 @@ class _CommentScreenState extends State<CommentScreen> {
         children: [
           SizedBox(
             height: 50,
-            width: _width,
+            width: width,
             child: Row(
               children: [
                 CircleAvatar(
@@ -94,7 +96,7 @@ class _CommentScreenState extends State<CommentScreen> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 10),
-                  width: _width * 0.8,
+                  width: width * 0.8,
                   height: 45,
                   child: TextFeildInput(
                     controller: commentController,
@@ -126,7 +128,7 @@ class _CommentScreenState extends State<CommentScreen> {
                       itemBuilder: (_, index) {
                         return Container(
                           margin: const EdgeInsets.all(10),
-                          width: _width,
+                          width: width,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -142,7 +144,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 10),
                                     padding: const EdgeInsets.all(5),
-                                    width: _width - 80,
+                                    width: width - 80,
                                     height: 50,
                                     decoration: BoxDecoration(
                                       color: Colors.blueGrey.withOpacity(0.5),

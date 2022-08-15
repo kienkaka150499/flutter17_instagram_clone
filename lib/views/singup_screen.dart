@@ -88,138 +88,146 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width>webScreenSize?500:double.infinity,
-            height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(),
-                ),
-                SvgPicture.asset(
-                  'assets/images/instagram_icon.svg',
-                  color: primaryColor,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Stack(
-                  children: [
-                    _image == null
-                        ? const CircleAvatar(
-                            radius: 64,
-                            backgroundImage: AssetImage('assets/images/default_image.png'),
-                          )
-                        : CircleAvatar(
-                            radius: 64,
-                            backgroundImage: MemoryImage(_image!),
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width>webScreenSize?500:double.infinity,
+              height: MediaQuery.of(context).size.height*.95,
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(),
+                  ),
+                  SvgPicture.asset(
+                    'assets/images/instagram_icon.svg',
+                    color: primaryColor,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Stack(
+                    children: [
+                      _image == null
+                          ? const CircleAvatar(
+                              radius: 64,
+                              backgroundImage: AssetImage('assets/images/default_image.png'),
+                            )
+                          : CircleAvatar(
+                              radius: 64,
+                              backgroundImage: MemoryImage(_image!),
+                            ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: mobileBackgroundColor,
+                            borderRadius: BorderRadius.circular(17.5),
                           ),
-                    Positioned(
-                      right: 0,
-                      bottom: -10,
-                      child: IconButton(
-                        onPressed: () => selectImage(),
-                        icon: const Icon(
-                          Icons.add_a_photo,
-                          color: primaryColor,
+                          child: IconButton(
+                            onPressed: () => selectImage(),
+                            icon: const Icon(Icons.add_a_photo),
+                            padding: const EdgeInsets.all(0),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFeildInput(
-                  controller: _usernameController,
-                  textInputType: TextInputType.text,
-                  hintText: 'Username',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFeildInput(
-                  controller: _emailController,
-                  textInputType: TextInputType.emailAddress,
-                  hintText: 'Email',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Stack(
-                  children: [
-                    TextFeildInput(
-                      controller: _passwordController,
-                      textInputType: TextInputType.text,
-                      hintText: 'Password',
-                      isPassword: !isShowPassword,
-                    ),
-                    Positioned(
-                        right: 0,
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isShowPassword = !isShowPassword;
-                            });
-                          },
-                          icon: Icon(isShowPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                        ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () => signupUser(),
-                  style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(
-                      const Size(double.maxFinite, 40),
-                    ),
+                    ],
                   ),
-                  child: _isLoading?const Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    ),
-                  ):const Text(
-                    'Sign up',
-                    style: TextStyle(
-                      color: primaryColor,
-                    ),
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                Expanded(child: Container()),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "You already have account?",
+                  TextFeildInput(
+                    controller: _usernameController,
+                    textInputType: TextInputType.text,
+                    hintText: 'Username',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFeildInput(
+                    controller: _emailController,
+                    textInputType: TextInputType.emailAddress,
+                    hintText: 'Email',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Stack(
+                    children: [
+                      TextFeildInput(
+                        controller: _passwordController,
+                        textInputType: TextInputType.text,
+                        hintText: 'Password',
+                        isPassword: !isShowPassword,
+                      ),
+                      Positioned(
+                          right: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isShowPassword = !isShowPassword;
+                              });
+                            },
+                            icon: Icon(isShowPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                          ))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => signupUser(),
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all(
+                        const Size(double.maxFinite, 40),
+                      ),
+                    ),
+                    child: _isLoading?const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    ):const Text(
+                      'Sign up',
                       style: TextStyle(
                         color: primaryColor,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text('Login'),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+                  ),
+                  Expanded(child: Container()),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "You already have account?",
+                        style: TextStyle(
+                          color: primaryColor,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('Login'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

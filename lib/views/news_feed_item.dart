@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../firebases/firestore_method.dart';
 import '../utils/colors.dart';
 import '../utils/global_variables.dart';
-import '../widgets/show_snackbar.dart';
 import 'comment_screen.dart';
 
 class NewsFeedItem extends StatefulWidget {
@@ -22,34 +21,19 @@ class NewsFeedItem extends StatefulWidget {
 
 class _NewsFeedItemState extends State<NewsFeedItem> {
   final TextEditingController _commentController = TextEditingController();
-  int commentCount = 0;
 
-  fetchCommentCount() async {
-    try {
-      QuerySnapshot snap = await FirebaseFirestore.instance
-          .collection('posts')
-          .doc(widget.snapshot['postId'])
-          .collection('comments')
-          .get();
-      commentCount = snap.docs.length;
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
-    return commentCount;
-  }
-
-  void postComment(
-      String uid, String name, String profileImage, String comment) async {
-    try {
-      String result = await FirestoreMethod().postComment(
-          widget.snapshot['postId'], comment, uid, name, profileImage);
-      if (result != 'success') {
-        showSnackBar(context, result);
-      }
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
-  }
+  // void postComment(
+  //     String uid, String name, String profileImage, String comment) async {
+  //   try {
+  //     String result = await FirestoreMethod().postComment(
+  //         widget.snapshot['postId'], comment, uid, name, profileImage);
+  //     if (result != 'success') {
+  //       showSnackBar(context, result);
+  //     }
+  //   } catch (e) {
+  //     showSnackBar(context, e.toString());
+  //   }
+  // }
 
   fetchDeletePost() async {
     try {
@@ -60,19 +44,11 @@ class _NewsFeedItemState extends State<NewsFeedItem> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    fetchCommentCount();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: _width > webScreenSize ? _width * 0.3 : 0,
-        vertical: _width > webScreenSize ? 15 : 0,
+        horizontal: width > webScreenSize ? width * 0.3 : 0,
+        vertical: width > webScreenSize ? 15 : 0,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,8 +67,8 @@ class _NewsFeedItemState extends State<NewsFeedItem> {
                   }
                 },
                 child: SizedBox(
-                  width: _width,
-                  height: _width > webScreenSize ? _width * 0.4 : _width,
+                  width: width,
+                  height: width > webScreenSize ? width * 0.4 : width,
                   child: Image.network(
                     widget.snapshot['photoUrl'],
                     fit: BoxFit.cover,
@@ -101,8 +77,8 @@ class _NewsFeedItemState extends State<NewsFeedItem> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                    top: 5, left: _width > webScreenSize ? 10 : 0),
-                width: _width * 0.9,
+                    top: 5, left: width > webScreenSize ? 10 : 0),
+                width: width * 0.9,
                 height: 50,
                 child: Row(
                   children: [
@@ -235,17 +211,26 @@ class _NewsFeedItemState extends State<NewsFeedItem> {
                 ),
               );
             },
-            child: FutureBuilder(
-                future: fetchCommentCount(),
-                builder: (context, snap) {
-                  return Container(
-                    margin: const EdgeInsets.only(top: 8, left: 8),
-                    height: 25,
-                    child: Text(
-                      "${widget.snapshot['likes'].length} likes, ${snap.data} comments",
-                    ),
-                  );
-                }),
+            child: Container(
+              margin: const EdgeInsets.only(top: 8, left: 8),
+              height: 25,
+              child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection('posts')
+                      .doc(widget.snapshot['postId'])
+                      .collection('comments')
+                      .get(),
+                  builder: (context, snap) {
+                    if (!snap.hasData) {
+                      return Text(
+                        "${widget.snapshot['likes'].length} likes, 0 comments",
+                      );
+                    }
+                    return Text(
+                      "${widget.snapshot['likes'].length} likes, ${(snap.data as dynamic).docs.length} comments",
+                    );
+                  }),
+            ),
           ),
           Container(
             height: 30,
@@ -278,17 +263,18 @@ class _NewsFeedItemState extends State<NewsFeedItem> {
                   ),
                 ),
                 TextButton(
-                  onPressed: ()
-                  {
+                  onPressed: () {
                     FirestoreMethod().postComment(
                         widget.snapshot['postId'],
                         _commentController.text,
                         widget.user.uid,
                         widget.user.username,
                         widget.user.photoUrl);
-                    _commentController.text='';
-                  },
+                    _commentController.text = '';
+                    setState(() {
 
+                    });
+                  },
                   child: const Text(
                     'Post',
                     style: TextStyle(color: Colors.white),

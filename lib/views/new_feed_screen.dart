@@ -21,7 +21,7 @@ class NewFeedScreen extends StatefulWidget {
 }
 
 class _NewFeedScreenState extends State<NewFeedScreen> {
-  late double _width;
+  
   bool isLike = false;
 
   @override
@@ -47,7 +47,7 @@ class _NewFeedScreenState extends State<NewFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width;
+    
     UserModel user = context.watch<UserProvider>().getUser;
     // if(user == null){
     //   return const Center(
@@ -56,8 +56,8 @@ class _NewFeedScreenState extends State<NewFeedScreen> {
     // }
     return Scaffold(
       backgroundColor:
-          _width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
-      appBar: _width > webScreenSize
+          width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
+      appBar: width > webScreenSize
           ? null
           : AppBar(
               title: SvgPicture.asset(

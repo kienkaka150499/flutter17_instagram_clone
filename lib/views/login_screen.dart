@@ -59,121 +59,123 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width>webScreenSize?500:double.infinity,
-            height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(),
-                ),
-                SvgPicture.asset(
-                  'assets/images/instagram_icon.svg',
-                  color: primaryColor,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFeildInput(
-                  controller: _emailController,
-                  textInputType: TextInputType.emailAddress,
-                  hintText: 'Email',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Stack(
-                  children: [
-                    TextFeildInput(
-                      controller: _passwordController,
-                      textInputType: TextInputType.text,
-                      hintText: 'Password',
-                      isPassword: !_isShowPassword,
-                    ),
-                    Positioned(
-                        right: 0,
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isShowPassword = !_isShowPassword;
-                            });
-                          },
-                          icon: Icon(_isShowPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  height: 40,
-                  child: Row(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width>webScreenSize?500:double.infinity,
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(),
+                  ),
+                  SvgPicture.asset(
+                    'assets/images/instagram_icon.svg',
+                    color: primaryColor,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFeildInput(
+                    controller: _emailController,
+                    textInputType: TextInputType.emailAddress,
+                    hintText: 'Email',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Stack(
                     children: [
-                      Expanded(child: Container()),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forget Password?',
-                          textAlign: TextAlign.right,
+                      TextFeildInput(
+                        controller: _passwordController,
+                        textInputType: TextInputType.text,
+                        hintText: 'Password',
+                        isPassword: !_isShowPassword,
+                      ),
+                      Positioned(
+                          right: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isShowPassword = !_isShowPassword;
+                              });
+                            },
+                            icon: Icon(_isShowPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Expanded(child: Container()),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Forget Password?',
+                            textAlign: TextAlign.right,
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => loginUser(),
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all(
+                        const Size(double.maxFinite, 40),
+                      ),
+                    ),
+                    child: _isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          )
+                        : const Text(
+                            'Login',
+                            style: TextStyle(
+                              color: primaryColor,
+                            ),
+                          ),
+                  ),
+                  Expanded(child: Container()),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Don't have account?",
+                        style: TextStyle(
+                          color: primaryColor,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SignupScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('Sign up'),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () => loginUser(),
-                  style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(
-                      const Size(double.maxFinite, 40),
-                    ),
+                  const SizedBox(
+                    height: 10,
                   ),
-                  child: _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: primaryColor,
-                          ),
-                        )
-                      : const Text(
-                          'Login',
-                          style: TextStyle(
-                            color: primaryColor,
-                          ),
-                        ),
-                ),
-                Expanded(child: Container()),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Don't have account?",
-                      style: TextStyle(
-                        color: primaryColor,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SignupScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text('Sign up'),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

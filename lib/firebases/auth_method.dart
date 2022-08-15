@@ -86,4 +86,5 @@ class AuthMethod {
     DocumentSnapshot documentSnapshot=await _firestore.collection('users').doc(currentUser.uid).get();
     return UserModel.fromSnap(documentSnapshot);
   }
+
 }

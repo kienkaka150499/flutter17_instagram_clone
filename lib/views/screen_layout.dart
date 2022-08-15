@@ -58,7 +58,6 @@ class WebScreenLayout extends StatefulWidget {
 
 class _WebScreenLayoutState extends State<WebScreenLayout> {
   PageController pageController = PageController();
-  var _page = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         controller: pageController,
         onPageChanged: (i) {
           setState(() {
-            _page = i;
+            page = i;
           });
         },
         children: [
@@ -84,7 +83,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         selectedItemColor: primaryColor,
         unselectedItemColor: secondaryColor,
-        currentIndex: _page,
+        currentIndex: page,
         onTap: (i) {
           pageController.jumpToPage(i);
         },
