@@ -7,6 +7,7 @@ import 'package:flutter17_instagram_clone/utils/global_variables.dart';
 import 'package:flutter17_instagram_clone/views/add_post_screen.dart';
 import 'package:flutter17_instagram_clone/views/new_feed_screen.dart';
 import 'package:flutter17_instagram_clone/views/profile_screen.dart';
+import 'package:flutter17_instagram_clone/views/search_screen.dart';
 import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {
@@ -72,7 +73,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         },
         children: [
           const NewFeedScreen(),
-          const Center(child: Text('This is Search')),
+          const SearchScreen(),
           const PostScreen(),
           const Center(child: Text('This is Notification')),
           ProfileScreen(uid: context.read<UserProvider>().getUser.uid,),
@@ -148,7 +149,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         },
         children: [
           const NewFeedScreen(),
-          const Center(child: Text('This is Search')),
+          const SearchScreen(),
           const PostScreen(),
           const Center(child: Text('This is Notification')),
           ProfileScreen(uid: context.read<UserProvider>().getUser.uid,),
